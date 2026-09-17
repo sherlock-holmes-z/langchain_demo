@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=84,<85"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "langchain-demo"
+version = "0.1.0"
+description = "LangChain 1.4 learning workspace with reproducible Conda and uv configuration"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    # 高层 Agent、Middleware 和模型编排能力；按学习计划固定到指定版本。
+    "langchain==1.4.0",
+    # DeepSeek 的官方 LangChain 适配器，提供 ChatDeepSeek。
+    "langchain-deepseek==1.1.0",
+    # 用于比较 ChatOpenAI 兼容调用；也为 ChatDeepSeek 提供底层适配能力。
+    "langchain-openai==1.6.2",
+    # 直接调用 DeepSeek 的 OpenAI 兼容 API，帮助理解 LangChain 下层请求。
+    "openai==3.14.1",
+    # 从项目根目录 .env 加载本地密钥，生产环境仍应由部署平台注入变量。
+    "python-dotenv==1.2.3",
+    # 为 VS Code/Jupyter 注册独立的 Conda Kernel，不安装完整 JupyterLab。
+    "ipykernel==7.3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "mypy==2.3.1",
+    "pytest==9.1.1",
+    "pytest-asyncio==1.4.0",
+    "ruff==0.16.8",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-config --strict-markers"
+pythonpath = ["src"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+src = ["src", "tests"]
+extend-include = ["*.ipynb"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src"]

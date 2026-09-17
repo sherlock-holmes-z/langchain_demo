@@ -1,0 +1,12 @@
+name: langchain-demo
+channels:
+  - conda-forge
+dependencies:
+  # Conda 只负责 Python 解释器和启动 uv 所需的 pip，Python 包由 pyproject.toml/uv.lock 管理。
+  - python=3.12
+  - pip
+  # uv sync 采用 --inexact，保留这些由 Conda 管理的基础构建工具。
+  - setuptools=84.0.0
+  - wheel=0.48.0
+  - pip:
+      - uv==0.12.15
