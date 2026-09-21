@@ -12,15 +12,15 @@
 | python-dotenv | 1.2.3 | 本地 `.env` 加载 |
 | ipykernel | 7.3.0 | VS Code/Jupyter Kernel |
 
-直接依赖固定在 `pyproject.toml`，间接依赖由 `uv.lock` 固定。升级时必须同时更新锁文件并执行完整验证，不能只修改版本字符串。
+运行依赖和开发工具的版本固定在 `environment.yml`，项目元数据中的直接依赖同步记录在
+`pyproject.toml`。升级时应同时修改两处直接依赖版本并执行完整验证。
 
 ## 配置文件职责
 
 | 文件 | 是否提交 | 职责 |
 | --- | --- | --- |
-| `environment.yml` | 是 | 创建 `langchain-demo` Conda 环境并安装 uv |
+| `environment.yml` | 是 | 创建 `langchain-demo` Conda 环境并安装运行、开发依赖 |
 | `pyproject.toml` | 是 | 声明直接依赖、Python 范围和质量工具配置 |
-| `uv.lock` | 是 | 固定全部 Python 依赖及文件哈希 |
 | `.env.example` | 是 | 环境变量模板，不包含密钥 |
 | `.env` | 否 | 本机真实密钥，由 `.gitignore` 排除 |
 
@@ -52,8 +52,8 @@ pytest
 
 ## 依赖升级流程
 
-1. 在独立分支修改 `pyproject.toml` 中的直接依赖版本。
-2. 执行 `uv lock --upgrade-package <package>` 更新目标包及必要的间接依赖。
+1. 在独立分支同步修改 `environment.yml` 和 `pyproject.toml` 中的直接依赖版本。
+2. 执行 `conda env update --name langchain-demo --file environment.yml --prune` 更新环境。
 3. 执行 Ruff、mypy、pytest 和 Notebook 静态检查。
 4. 如需在线验证，显式使用测试账号和费用限额执行。
-5. 检查 `uv.lock` 差异后再提交。
+5. 检查配置文件差异后再提交。

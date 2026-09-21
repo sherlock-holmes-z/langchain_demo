@@ -2,11 +2,21 @@ name: langchain-demo
 channels:
   - conda-forge
 dependencies:
-  # Conda 只负责 Python 解释器和启动 uv 所需的 pip，Python 包由 pyproject.toml/uv.lock 管理。
+  # 所有依赖都安装到这个 Conda 环境，不再创建项目级 .venv。
+  # conda env update --name langchain-demo --file environment.yml --prune
   - python=3.12
   - pip
-  # uv sync 采用 --inexact，保留这些由 Conda 管理的基础构建工具。
   - setuptools=84.0.0
   - wheel=0.48.0
   - pip:
-      - uv==0.12.15
+      - langchain==1.4.0
+      - langchain-deepseek==1.1.0
+      - langchain-openai==1.6.2
+      - openai==3.14.1
+      - python-dotenv==1.2.3
+      - rich==15.0.0
+      - ipykernel==7.3.0
+      - mypy==2.3.1
+      - pytest==9.1.1
+      - pytest-asyncio==1.4.0
+      - ruff==0.16.8

@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [switch]$Recreate
 )
@@ -42,26 +42,15 @@ if (-not $environmentPath) {
     throw "Conda 环境 $environmentName 创建失败"
 }
 
-$uvExecutable = Join-Path $environmentPath "Scripts\uv.exe"
 $pythonExecutable = Join-Path $environmentPath "python.exe"
-if (-not (Test-Path -LiteralPath $uvExecutable)) {
-    throw "Conda 环境中未找到 uv.exe"
+if (-not (Test-Path -LiteralPath $pythonExecutable)) {
+    throw "Conda 环境中未找到 python.exe"
 }
 
-$previousProjectEnvironment = $env:UV_PROJECT_ENVIRONMENT
-try {
-    # 显式指定 Conda 环境，避免 uv 在项目目录创建额外的 .venv。
-    # --inexact 会保留 Conda 管理的 pip、setuptools、wheel 和 uv。
-    $env:UV_PROJECT_ENVIRONMENT = $environmentPath
-    & $uvExecutable sync `
-        --project $projectRoot `
-        --python $pythonExecutable `
-        --extra dev `
-        --frozen `
-        --inexact
-}
-finally {
-    $env:UV_PROJECT_ENVIRONMENT = $previousProjectEnvironment
+# environment.yml 安装运行和开发依赖；这里只将当前项目注册为可编辑包。
+& $pythonExecutable -m pip install --no-deps --editable $projectRoot
+if ($LASTEXITCODE -ne 0) {
+    throw "项目可编辑安装失败"
 }
 
 & $pythonExecutable -m ipykernel install `

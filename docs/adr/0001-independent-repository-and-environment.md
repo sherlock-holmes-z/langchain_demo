@@ -2,6 +2,6 @@
 status: accepted
 ---
 
-# 使用独立仓库及 Conda 与 uv 双层环境管理
+# 使用独立仓库及 Conda 环境管理
 
-LangChain 学习内容放在独立的 `langchain_demo` 仓库中，避免其快速变化的依赖影响已有 Python 学习项目。Conda 只负责 Python 3.12 解释器隔离，项目直接依赖由 `pyproject.toml` 声明，完整依赖图由 `uv.lock` 固定；这样既保留 Conda 的环境隔离能力，也避免在多个配置文件中重复维护 Python 包版本。
+LangChain 学习内容放在独立的 `langchain_demo` 仓库中，避免其快速变化的依赖影响已有 Python 学习项目。项目统一使用名为 `langchain-demo` 的 Conda 环境，运行依赖和开发工具由 `environment.yml` 安装，项目元数据与工具配置保留在 `pyproject.toml`。不再使用 uv，也不在项目目录创建额外的 `.venv`。

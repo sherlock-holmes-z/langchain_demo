@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "langchain-demo"
 version = "0.1.0"
-description = "LangChain 1.4 learning workspace with reproducible Conda and uv configuration"
+description = "LangChain 1.4 learning workspace with a reproducible Conda environment"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [

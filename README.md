@@ -5,9 +5,9 @@ Notebook 中验证，可复用逻辑再沉淀到 `src/langchain_demo`，测试�
 
 ## 环境职责
 
-- Conda：创建并隔离 Python 3.12 解释器。
+- Conda：创建并管理完整的 Python 3.12 项目环境。
+- `environment.yml`：固定运行依赖和开发工具版本。
 - `pyproject.toml`：声明项目的直接依赖和开发工具。
-- `uv.lock`：锁定完整的 Python 依赖图，确保不同电脑得到一致版本。
 - `.env`：仅保存本机密钥，不进入 Git。
 - `.env.example`：记录团队需要配置的变量名称和非敏感默认值。
 
@@ -27,7 +27,7 @@ conda activate langchain-demo
 随后在 `.env` 中填写自己的 `DEEPSEEK_API_KEY`。初始化脚本会：
 
 1. 创建或更新 `langchain-demo` Conda 环境；
-2. 严格按照 `uv.lock` 安装项目和开发依赖；
+2. 按照 `environment.yml` 安装项目和开发依赖；
 3. 注册名为 `langchain-demo` 的 Jupyter Kernel。
 
 ## 日常验证
@@ -52,9 +52,8 @@ langchain_demo/
 ├── src/langchain_demo/         # 可复用的正式 Python 代码
 ├── tests/                      # 不依赖真实外部服务的自动化测试
 ├── .env.example               # 环境变量模板
-├── environment.yml            # Conda 环境定义
-├── pyproject.toml             # 直接依赖和工具配置
-└── uv.lock                    # 完整依赖锁文件
+├── environment.yml            # Conda 环境与依赖定义
+└── pyproject.toml             # 项目元数据和工具配置
 ```
 
 ## 学习代码约定
